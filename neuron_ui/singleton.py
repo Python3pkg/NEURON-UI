@@ -1,4 +1,5 @@
 import logging
+import collections
 
 class Singleton:
     """
@@ -28,7 +29,7 @@ class Singleton:
         """
         if hasattr(self, '_instance') and self._instance is not None:
             shake_panel_op = getattr(self._instance, "shake_panel", None)
-            if callable(shake_panel_op): 
+            if isinstance(shake_panel_op, collections.Callable): 
                 self._instance.shake_panel()
             return self._instance
         else:

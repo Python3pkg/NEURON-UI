@@ -122,7 +122,7 @@ class Net:
             nc = h.NetCon(cell.soma(0.5)._ref_v, None, sec=cell.soma)  # create netcon to record spikes from cell
             nc.record(self.spkt, self.spkid, i) 
             self.cells.append(cell)  # add cell to list of cells in network            
-            print('Created cell ' + str(i))
+            print(('Created cell ' + str(i)))
             
             
     def connect_cells_ring(self, syn_weight, syn_delay):
@@ -134,7 +134,7 @@ class Net:
             preCell = self.cells[ipre]  # get preCell object
             postCell.connect2pre(preCell, delay=syn_delay, weight=syn_weight) # connect to pre
             self.conns.append((ipre,ipost)) # keep track of connections created
-            print('Created connection between cell ' + str(ipre) + ' and cell ' + str(ipost))
+            print(('Created connection between cell ' + str(ipre) + ' and cell ' + str(ipost)))
 
 
     def plot_net(self):

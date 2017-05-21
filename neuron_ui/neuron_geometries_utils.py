@@ -66,7 +66,7 @@ def calculate_distance_to_selection(geometry, point):
 def getGeometriesBySegment(segment, secs):
     secData = None
     secDataName = None
-    for sec_name, sec in secs.items():
+    for sec_name, sec in list(secs.items()):
         if sec['neuronSec'] == segment.sec:
             secData = sec
             secDataName = sec_name
@@ -107,7 +107,7 @@ def extractGeometries(reload=False):
 
     geometries = []
     logging.debug("Converting sections and segments to Geppetto")
-    for sec_name, sec in secs.items():
+    for sec_name, sec in list(secs.items()):
         if 'pt3d' in sec['geom']:
             points = sec['geom']['pt3d']
             for i in range(len(points) - 1):
@@ -171,7 +171,7 @@ def convertTo3DGeoms(secs):
     # set 3d geoms for reduced cell models
     offset = 0
     prevL = 0
-    for secName, sec in secs.items():
+    for secName, sec in list(secs.items()):
         sec['geom']['pt3d'] = []
         if secName in ['Adend1', 'Adend2', 'Adend3']:  # set 3d geom of soma and Adends
             sec['geom']['pt3d'].append(
@@ -194,10 +194,10 @@ def convertTo3DGeoms(secs):
 
 def _equal_dicts(d1, d2, ignore_keys):
     ignored = set(ignore_keys)
-    for k1, v1 in d1.items():
+    for k1, v1 in list(d1.items()):
         if k1 not in ignored and (k1 not in d2 or d2[k1] != v1):
             return False
-    for k2, v2 in d2.items():
+    for k2, v2 in list(d2.items()):
         if k2 not in ignored and k2 not in d1:
             return False
     return True
@@ -230,7 +230,7 @@ def getSecName(sec, dirCellSecNames=None):
 
     # Add index for network
     index = ""
-    while (secName + str(index)) in section_name_dict.values():
+    while (secName + str(index)) in list(section_name_dict.values()):
         if index == "":
             index = 0
         else:
@@ -286,7 +286,7 @@ def getCellParams(cell):
     dirCellSecNames = {}
     for sec in secs:
         dirCellSecNames.update(
-            {hname: name for hname, name in dirCellHnames.items() if hname == sec.hname()})
+            {hname: name for hname, name in list(dirCellHnames.items()) if hname == sec.hname()})
 
     secDic = {}
     synMechs = []
@@ -397,8 +397,8 @@ def getCellParams(cell):
                         try:
                             synMech[varName] = point.__getattribute__(varName)
                         except:
-                            print('Could not read variable %s from synapse %s' % (
-                                varName, synMech['label']))
+                            print(('Could not read variable %s from synapse %s' % (
+                                varName, synMech['label'])))
 
                     if not [_equal_dicts(synMech, synMech2, ignore_keys=['label']) for synMech2 in synMechs]:
                         synMechs.append(synMech)
@@ -415,8 +415,8 @@ def getCellParams(cell):
                             # special condition for Izhi model, to set vinit=vr
                             # if varName == 'vr': secDic[secName]['vinit'] = point.__getattribute__(varName)
                         except:
-                            print('Could not read %s variable from point process %s' % (
-                                varName, pointpName))
+                            print(('Could not read %s variable from point process %s' % (
+                                varName, pointpName)))
 
         if pointps:
             secDic[secName]['pointps'] = pointps
@@ -450,8 +450,8 @@ def getCellParams(cell):
     # celsius warning
     if hasattr(h, 'celsius'):
         if h.celsius != 6.3:  # if not default value
-            print(
-                "Warning: h.celsius=%.4g in imported file -- you can set this value in simConfig['hParams']['celsius']" % (h.celsius))
+            print((
+                "Warning: h.celsius=%.4g in imported file -- you can set this value in simConfig['hParams']['celsius']" % (h.celsius)))
 
     # clean
     h.initnrn()

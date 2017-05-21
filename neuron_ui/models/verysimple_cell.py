@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 from neuron import h
 from neuron_ui import neuron_utils
 from neuron_ui import neuron_geometries_utils
